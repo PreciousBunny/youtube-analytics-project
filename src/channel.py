@@ -50,3 +50,62 @@ class Channel:
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
         print(json.dumps(self.youtube, indent=2, ensure_ascii=False))
+
+    def __str__(self):
+        """
+        Магический метод для отображения информации об объекте класса для пользователей.
+        """
+        return f"{self.channel_title} ({self.channel_url})"
+
+    def __add__(self, other):
+        """
+        Магический метод складывает количество подписчиков данного объекта Channel с количеством подписчиков другого объекта.
+        """
+        return self.subscriber_count + other.subscriber_count
+
+    def __sub__(self, other):
+        """
+        Магический метод вычитает из данного объекта Channel количество подписчиков другого объекта.
+        """
+        return self.subscriber_count - other.subscriber_count
+
+    def __rsub__(self, other):
+        """
+        Магический метод вычитает из другого объекта количество подписчиков данного объекта Channel.
+        """
+        return other.subscriber_count - self.subscriber_count
+
+    def __gt__(self, other):
+        """
+        Магический метод сравнивает, является ли данный объект Channel "больше" по количеству подписчиков,
+        относительно количеству подписчиков другого объекта.
+        """
+        return self.subscriber_count > other.subscriber_count
+
+    def __ge__(self, other):
+        """
+        Магический метод сравнивает, является ли данный объект Channel "больше или равен" по количеству подписчиков,
+        относительно количеству подписчиков другого объекта.
+        """
+        return self.subscriber_count >= other.subscriber_count
+
+    def __lt__(self, other):
+        """
+        Магический метод сравнивает, является ли данный объект Channel "меньше" по количеству подписчиков,
+        относительно количеству подписчиков другого объекта.
+        """
+        return self.subscriber_count < other.subscriber_count
+
+    def __le__(self, other):
+        """
+        Магический метод сравнивает, является ли данный объект Channel "меньше или равен" по количеству подписчиков,
+        относительно количеству подписчиков другого объекта.
+        """
+        return self.subscriber_count <= other.subscriber_count
+
+    def __eq__(self, other):
+        """
+        Магический метод сравнивает, "равен"  ли данный объект Channel по количеству подписчиков,
+        с данными другого объекта.
+        """
+        return self.subscriber_count == other.subscriber_count
