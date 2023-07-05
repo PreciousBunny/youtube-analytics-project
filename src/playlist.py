@@ -21,22 +21,25 @@ class PlayList:
         """
         Метод получает данные и статистику плейлиста по его id.
         """
-        youtube = Channel.get_service().playlistItems().list(
-            playlistId=self.__playlist_id,
-            part='snippet,contentDetails,id,status',
-            maxResults=50,
-        ).execute()
+        try:
+            youtube = Channel.get_service().playlistItems().list(
+                playlistId=self.__playlist_id,
+                part='snippet,contentDetails,id,status',
+                maxResults=50,
+            ).execute()
 
-        playlist_data = youtube.get('items')[0]
-        self.title = playlist_data.get('snippet').get('title').split(".")[0]
-        self.url = f'https://www.youtube.com/playlist?list={self.__playlist_id}'
+            playlist_data = youtube.get('items')[0]
+            self.title = playlist_data.get('snippet').get('title').split(".")[0]
+            self.url = f'https://www.youtube.com/playlist?list={self.__playlist_id}'
 
-        video_ids = [video['contentDetails']['videoId'] for video in youtube['items']]
-        video_response = Channel.get_service().videos().list(
-            part='contentDetails,statistics',
-            id=','.join(video_ids)
-        ).execute()
-        self.videos = video_response.get('items')
+            video_ids = [video['contentDetails']['videoId'] for video in youtube['items']]
+            video_response = Channel.get_service().videos().list(
+                part='contentDetails,statistics',
+                id=','.join(video_ids)
+            ).execute()
+            self.videos = video_response.get('items')
+        except IndexError:
+            print("broken_playlist_id")
 
     @property
     def playlist_id(self):

@@ -21,14 +21,17 @@ class Video:
         """
         Метод получает данные и статистику видео по его id.
         """
-        youtube = Channel.get_service().videos().list(
-            part='snippet,statistics', id=self.__video_id
-        ).execute()
-        video_data = youtube.get('items')[0]
-        self.title = video_data.get('snippet').get('title')
-        self.url = f'https://www.youtube.com/watch?v={self.__video_id}'
-        self.view_count = int(video_data.get('statistics').get('viewCount'))
-        self.like_count = int(video_data.get('statistics').get('likeCount'))
+        try:
+            youtube = Channel.get_service().videos().list(
+                part='snippet,statistics', id=self.__video_id
+            ).execute()
+            video_data = youtube.get('items')[0]
+            self.title = video_data.get('snippet').get('title')
+            self.url = f'https://www.youtube.com/watch?v={self.__video_id}'
+            self.view_count = int(video_data.get('statistics').get('viewCount'))
+            self.like_count = int(video_data.get('statistics').get('likeCount'))
+        except IndexError:
+            print("broken_video_id")
 
     @property
     def video_id(self):
